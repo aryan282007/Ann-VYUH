@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext.jsx';
-import { useLanguage } from '../context/LanguageContext.jsx';
-import UtilityBar from './UtilityBar.jsx';
+import { useLanguage, SUPPORTED_LANGS } from '../context/LanguageContext.jsx';
 
 const navLinkClass = ({ isActive }) =>
   `border-b-2 pb-1.5 transition-colors ${
@@ -11,7 +10,7 @@ const navLinkClass = ({ isActive }) =>
 
 export default function Navbar() {
   const { session, logout } = useAuth();
-  const { t } = useLanguage();
+  const { t, lang, setLang } = useLanguage();
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -51,9 +50,8 @@ export default function Navbar() {
   );
 
   return (
-    <header className="bg-surface">
-      <UtilityBar />
-      <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-2 border-b border-border px-5 py-3">
+    <header className="bg-surface sticky top-0 z-50">
+      <div className="mx-auto flex w-full max-w-full flex-wrap items-center justify-between gap-2 border-b border-border px-6 md:px-8 py-4">
         <Link to="/" className="flex items-center gap-2.5" onClick={() => setMenuOpen(false)}>
           <img src="/ann-vyuh-logo.svg" alt="Ann VYUH Logo" className="h-12 w-auto" />
         </Link>
@@ -65,10 +63,10 @@ export default function Navbar() {
           aria-expanded={menuOpen}
           aria-label={t('nav.menu')}
         >
-          <span aria-hidden="true" className="text-xl">{menuOpen ? '✕' : '☰'}</span>
+          <span aria-hidden="true" className="text-xl font-black">{menuOpen ? '✕' : '☰'}</span>
         </button>
 
-        <nav className={`${menuOpen ? 'flex' : 'hidden'} w-full flex-col gap-3 pt-3 text-p2 font-bold md:flex md:w-auto md:flex-row md:items-center md:gap-6 md:pt-0`}>
+        <nav className={`${menuOpen ? 'flex' : 'hidden'} w-full flex-col gap-4 pt-4 text-p2 font-bold md:flex md:w-auto md:flex-row md:items-center md:gap-6 md:pt-0`}>
           <NavLink to="/about" className={navLinkClass} onClick={() => setMenuOpen(false)}>{t('nav.about')}</NavLink>
           {session?.role === 'farmer' ? farmerLinks : !session ? guestLinks : null}
           {session && (
@@ -79,6 +77,22 @@ export default function Navbar() {
               </button>
             </>
           )}
+
+          {/* Language Toggle */}
+          <div className="flex items-center gap-1.5 ml-0 md:ml-2 border-l-0 md:border-l pl-0 md:pl-4 border-border">
+            <span className="font-bold text-sm hidden lg:block text-muted">{t('common.language')}</span>
+            <select
+              value={lang}
+              onChange={(e) => setLang(e.target.value)}
+              className="min-w-[92px] rounded-md border border-border bg-white px-2 py-1.5 text-ink text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary shadow-sm"
+            >
+              {SUPPORTED_LANGS.map((l) => (
+                <option key={l.code} value={l.code}>
+                  {l.label}
+                </option>
+              ))}
+            </select>
+          </div>
         </nav>
       </div>
     </header>

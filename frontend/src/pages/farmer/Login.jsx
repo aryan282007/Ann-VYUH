@@ -11,17 +11,20 @@ export default function FarmerLogin() {
   const location = useLocation();
   const { login } = useAuth();
   const { joinFarmerRoom } = useSocket();
-  const { lang } = useLanguage();
+  const { lang, t } = useLanguage();
 
   const [mobileNumber, setMobileNumber] = useState(location.state?.mobileNumber || '');
   const [otp, setOtp] = useState('');
   const [devCode, setDevCode] = useState(null);
   const [stage, setStage] = useState('mobile'); 
+  const [demoRole, setDemoRole] = useState('farmer');
+
   const [error, setError] = useState('');
   const [submitting, setSubmitting] = useState(false);
-  
-  // Demo role selector
-  const [demoRole, setDemoRole] = useState('farmer');
+
+  // Auth blocking modal state
+  const [showModal, setShowModal] = useState(false);
+  const [modalContent, setModalContent] = useState({ title: '', body: '', image: '' });
 
   async function handleDemoStaffLogin(e) {
     e.preventDefault();
@@ -34,11 +37,11 @@ export default function FarmerLogin() {
     else if (demoRole === 'system_admin') username = 'sysadmin';
 
     try {
-      const { data } = await api.post('/auth/staff/login', { username, password: 'password123' });
-      login(data.token, data.staff, data.staff.role);
-      navigate('/admin/dashboard');
+      const { data } = await api.post('/auth/admin/login', { username, password: 'password123' });
+      login(data.token, data.staff, 'staff');
+      navigate('/admin');
     } catch (err) {
-      setError('Staff login failed.');
+      setError(err.response?.data?.message || (lang === 'en' ? 'Staff Login failed' : 'स्टाफ़ लॉगिन विफल'));
     } finally {
       setSubmitting(false);
     }
@@ -46,19 +49,18 @@ export default function FarmerLogin() {
 
   async function requestOTP(e) {
     e.preventDefault();
+    
     if (demoRole !== 'farmer') return handleDemoStaffLogin(e);
 
-    setError('');
-    setSubmitting(true);
-    try {
-      const { data } = await api.post('/auth/farmer/request-otp', { mobileNumber });
-      setDevCode(data.devCode || null);
-      setStage('otp');
-    } catch (err) {
-      setError(err.response?.data?.message || 'ओटीपी भेजने में विफल');
-    } finally {
-      setSubmitting(false);
-    }
+    // Intercept farmer login and show popup
+    setModalContent({
+      title: lang === 'en' ? 'System Maintenance' : 'सिस्टम रखरखाव',
+      body: lang === 'en' 
+        ? 'Farmer registration and login portals are temporarily disabled while we upgrade our backend services for improved security and performance. Please try again later.' 
+        : 'बेहतर सुरक्षा और प्रदर्शन के लिए हमारे बैकएंड सेवाओं को अपग्रेड करते समय किसान पंजीकरण और लॉगिन पोर्टल अस्थायी रूप से अक्षम कर दिए गए हैं। कृपया बाद में पुनः प्रयास करें।',
+      image: 'https://images.pexels.com/photos/36436061/pexels-photo-36436061.jpeg?auto=compress&cs=tinysrgb&w=800'
+    });
+    setShowModal(true);
   }
 
   async function verifyOTP(e) {
@@ -71,105 +73,141 @@ export default function FarmerLogin() {
       joinFarmerRoom(data.farmer._id);
       navigate(data.farmer.registrationComplete ? '/farmer/home' : '/farmer/register');
     } catch (err) {
-      setError(err.response?.data?.message || 'अवैध ओटीपी (Invalid OTP)');
+      setError(err.response?.data?.message || (lang === 'en' ? 'Invalid OTP' : 'अवैध OTP'));
     } finally {
       setSubmitting(false);
     }
   }
 
+  const roleOptionClass = (roleValue) => 
+    `flex items-center gap-2 rounded-full border px-4 py-2 cursor-pointer transition-colors ${
+      demoRole === roleValue 
+        ? 'border-primary bg-primary/5 text-primary' 
+        : 'border-border text-muted hover:border-primary/50'
+    }`;
+
   return (
     <AuthLayout>
-      <div className="text-center mb-8">
-        <h2 className="text-3xl font-bold text-ink mb-2">{lang === 'en' ? 'Log In' : 'लॉग इन करें'}</h2>
-        <p className="text-muted text-sm font-medium">{lang === 'en' ? 'Please enter your registered mobile number' : 'कृपया अपना पंजीकृत मोबाइल नंबर दर्ज करें'}</p>
-      </div>
+      {stage === 'mobile' ? (
+        <form onSubmit={requestOTP} className="w-full">
+          <div className="text-center mb-8">
+            <h2 className="text-2xl font-bold text-ink">{lang === 'en' ? 'Log In' : 'लॉग इन करें'}</h2>
+            <p className="text-sm text-muted mt-1">{lang === 'en' ? 'Please enter your registered mobile number' : 'कृपया अपना पंजीकृत मोबाइल नंबर दर्ज करें'}</p>
+          </div>
 
-      {stage === 'mobile' && (
-        <form onSubmit={requestOTP} className="space-y-6">
-          <div className="space-y-1.5 text-left">
-            <label className="text-sm font-bold text-ink ml-1">{lang === 'en' ? 'Mobile Number' : 'मोबाइल नंबर'}</label>
-            <div className="relative">
-              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-muted font-medium">+91</span>
+          {error && <div className="rounded bg-red-50 p-3 text-sm text-red-600 mb-4">{error}</div>}
+
+          <div>
+            <label className="mb-1 block text-sm font-bold text-ink">{lang === 'en' ? 'Mobile Number' : 'मोबाइल नंबर'}</label>
+            <div className="relative flex items-center">
+              <span className="absolute left-4 text-muted font-bold">+91</span>
               <input
-                required={demoRole === 'farmer'}
+                type="tel"
+                required
+                disabled={demoRole !== 'farmer'}
                 pattern="[0-9]{10}"
-                placeholder="98765 43210"
-                className="w-full rounded-xl border border-border bg-white py-3.5 pl-12 pr-12 text-ink placeholder:text-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all outline-none font-medium"
+                className="w-full rounded-md border border-border py-3 pl-14 pr-10 text-ink outline-none focus:border-primary focus:ring-1 focus:ring-primary shadow-sm"
                 value={mobileNumber}
                 onChange={(e) => setMobileNumber(e.target.value)}
+                placeholder={demoRole !== 'farmer' ? (lang === 'en' ? 'Not required for staff demo' : 'स्टाफ डेमो के लिए आवश्यक नहीं') : ''}
               />
-              <span className="absolute right-4 top-1/2 -translate-y-1/2 text-muted">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+              <span className="absolute right-4 text-muted">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                </svg>
               </span>
             </div>
           </div>
 
-          <div className="space-y-3 pt-2">
-            <label className="text-sm font-bold text-ink ml-1">{lang === 'en' ? 'Login Role (Demo)' : 'लॉगिन भूमिका (डेमो)'}</label>
-            <div className="grid grid-cols-2 gap-3">
-              {[
-                { id: 'farmer', label: lang === 'en' ? 'Farmer' : 'किसान' },
-                { id: 'district_admin', label: lang === 'en' ? 'District Admin' : 'प्रशासन अधिकारी (जिला)' },
-                { id: 'centre_admin', label: lang === 'en' ? 'Centre Admin' : 'केंद्र प्रबंधक' },
-                { id: 'state_admin', label: lang === 'en' ? 'State Admin' : 'राज्य प्रशासक' },
-                { id: 'system_admin', label: lang === 'en' ? 'System Admin' : 'सिस्टम एडमिन' }
-              ].map(role => (
-                <label 
-                  key={role.id}
-                  onClick={() => setDemoRole(role.id)} 
-                  className={`flex items-center gap-2 p-3 rounded-lg border cursor-pointer transition-all ${
-                    demoRole === role.id ? 'border-primary bg-primary-light/30' : 'border-border hover:border-gray-300'
-                  } ${role.id === 'farmer' ? 'col-span-2' : ''}`}
-                >
-                  <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${demoRole === role.id ? 'border-primary' : 'border-gray-300'}`}>
-                    {demoRole === role.id && <div className="w-2 h-2 rounded-full bg-primary" />}
-                  </div>
-                  <span className={`text-xs font-semibold ${demoRole === role.id ? 'text-primary-dark' : 'text-muted'}`}>
-                    {role.label}
-                  </span>
-                </label>
-              ))}
+          <div className="mt-8">
+            <label className="mb-3 block text-sm font-bold text-ink">
+              {lang === 'en' ? 'Login Role (Demo)' : 'लॉगिन भूमिका (डेमो)'}
+            </label>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <label className={roleOptionClass('farmer')}>
+                <input type="radio" name="role" value="farmer" checked={demoRole === 'farmer'} onChange={(e) => setDemoRole(e.target.value)} className="accent-primary" />
+                <span className="text-sm font-medium">{lang === 'en' ? 'Farmer' : 'किसान'}</span>
+              </label>
+              
+              <label className={roleOptionClass('district_admin')}>
+                <input type="radio" name="role" value="district_admin" checked={demoRole === 'district_admin'} onChange={(e) => setDemoRole(e.target.value)} className="accent-primary" />
+                <span className="text-sm font-medium">{lang === 'en' ? 'District Admin' : 'प्रशासन अधिकारी (जिला)'}</span>
+              </label>
+
+              <label className={roleOptionClass('centre_admin')}>
+                <input type="radio" name="role" value="centre_admin" checked={demoRole === 'centre_admin'} onChange={(e) => setDemoRole(e.target.value)} className="accent-primary" />
+                <span className="text-sm font-medium">{lang === 'en' ? 'Centre Admin' : 'केंद्र प्रबंधक'}</span>
+              </label>
+
+              <label className={roleOptionClass('state_admin')}>
+                <input type="radio" name="role" value="state_admin" checked={demoRole === 'state_admin'} onChange={(e) => setDemoRole(e.target.value)} className="accent-primary" />
+                <span className="text-sm font-medium">{lang === 'en' ? 'State Admin' : 'राज्य प्रशासक'}</span>
+              </label>
+
+              <label className={roleOptionClass('system_admin')}>
+                <input type="radio" name="role" value="system_admin" checked={demoRole === 'system_admin'} onChange={(e) => setDemoRole(e.target.value)} className="accent-primary" />
+                <span className="text-sm font-medium">{lang === 'en' ? 'System Admin' : 'सिस्टम एडमिन'}</span>
+              </label>
             </div>
           </div>
 
-          {error && <p className="text-sm font-semibold text-danger text-center animate-shake">{error}</p>}
-          
-          <button type="submit" disabled={submitting} className="w-full bg-[#87B88C] hover:bg-primary text-white font-bold rounded-xl py-3.5 transition-colors flex items-center justify-center gap-2 shadow-sm">
-            {submitting ? (lang === 'en' ? 'Please wait...' : 'प्रतीक्षा करें...') : (demoRole === 'farmer' ? (lang === 'en' ? 'Send OTP >' : 'ओटीपी भेजें >') : (lang === 'en' ? 'Demo Login >' : 'डेमो लॉगिन >'))}
+          <button type="submit" disabled={submitting} className="w-full mt-8 rounded-md bg-[#84b884] py-3.5 text-white font-bold transition-transform hover:scale-[1.02] active:scale-95 shadow-sm hover:bg-[#73a373]">
+            {submitting ? '...' : (demoRole === 'farmer' ? (lang === 'en' ? 'Request OTP >' : 'ओटीपी भेजें >') : (lang === 'en' ? 'Staff Login >' : 'स्टाफ़ लॉगिन >'))}
           </button>
-        </form>
-      )}
 
-      {stage === 'otp' && (
-        <form onSubmit={verifyOTP} className="space-y-6">
-          <div className="rounded-xl bg-accent-light/50 p-4 border border-accent/20">
-            <p className="text-sm text-accent-dark font-medium text-center">
-              {lang === 'en' ? 'Demo Mode: Your OTP is ' : 'डेमो मोड: आपका ओटीपी '}<strong>{devCode || '123456'}</strong>{lang === 'en' ? '' : ' है।'}
+          {demoRole === 'farmer' && (
+            <p className="mt-6 text-center text-sm text-muted">
+              {lang === 'en' ? 'New farmer?' : 'नया किसान?'} <Link to="/farmer/register" className="text-primary font-bold hover:underline">{lang === 'en' ? 'Register' : 'पंजीकरण करें'}</Link>
             </p>
+          )}
+        </form>
+      ) : (
+        <form onSubmit={verifyOTP} className="w-full space-y-4">
+          <div className="text-center mb-6">
+            <h2 className="text-2xl font-bold text-ink">{lang === 'en' ? 'Verify OTP' : 'OTP सत्यापित करें'}</h2>
           </div>
-          <div className="space-y-1.5 text-left">
-            <label className="text-sm font-bold text-ink ml-1">{lang === 'en' ? 'Enter OTP' : 'ओटीपी दर्ज करें'}</label>
+
+          <div className="mb-4 rounded border border-primary/20 bg-primary-light p-3 text-sm text-primary">
+            {lang === 'en' ? 'Demo Mode: OTP is' : 'डेमो मोड: OTP है'} <b>{devCode || '1234'}</b>
+          </div>
+          
+          {error && <div className="rounded bg-red-50 p-3 text-sm text-red-600">{error}</div>}
+
+          <div>
+            <label className="mb-1 block text-sm font-bold text-ink">{lang === 'en' ? 'Enter OTP' : 'OTP दर्ज करें'}</label>
             <input
+              type="text"
               required
-              inputMode="numeric"
-              className="w-full rounded-xl border border-border bg-white py-3.5 px-4 text-center text-2xl tracking-[0.5em] font-bold text-ink focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all outline-none"
+              className="w-full rounded-md border border-border py-3 text-center text-2xl tracking-widest text-ink outline-none focus:border-primary focus:ring-1 focus:ring-primary shadow-sm"
               value={otp}
               onChange={(e) => setOtp(e.target.value)}
             />
           </div>
-          {error && <p className="text-sm font-semibold text-danger text-center animate-shake">{error}</p>}
-          <button type="submit" disabled={submitting} className="w-full bg-[#87B88C] hover:bg-primary text-white font-bold rounded-xl py-3.5 transition-colors">
-            {submitting ? (lang === 'en' ? 'Verifying...' : 'सत्यापन हो रहा है...') : (lang === 'en' ? 'Verify >' : 'सत्यापित करें >')}
-          </button>
-          <button type="button" onClick={() => setStage('mobile')} className="w-full text-primary font-bold hover:underline text-sm text-center">
-            &larr; {lang === 'en' ? 'Go Back' : 'वापस जाएँ'}
+
+          <button type="submit" disabled={submitting} className="w-full mt-6 rounded-md bg-[#84b884] py-3 text-white font-bold transition-transform hover:scale-[1.02] active:scale-95 shadow-sm hover:bg-[#73a373]">
+            {submitting ? '...' : (lang === 'en' ? 'Verify OTP >' : 'OTP सत्यापित करें >')}
           </button>
         </form>
       )}
 
-      <p className="mt-8 text-center text-sm font-medium text-muted">
-        {lang === 'en' ? 'New farmer? ' : 'नया किसान? '}<Link to="/farmer/register" className="text-primary font-bold hover:underline">{lang === 'en' ? 'Register here' : 'पंजीकरण करें'}</Link>
-      </p>
+      {/* System Maintenance Modal */}
+      {showModal && (
+        <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="bg-white rounded-2xl overflow-hidden max-w-sm w-full shadow-2xl relative animate-in zoom-in-95 duration-200">
+            <button onClick={() => setShowModal(false)} className="absolute top-3 right-3 w-8 h-8 flex items-center justify-center bg-black/40 hover:bg-black/60 text-white rounded-full transition-colors z-10 backdrop-blur">✕</button>
+            <div className="h-48 w-full overflow-hidden relative">
+              <img src={modalContent.image} alt="Modal Banner" className="w-full h-full object-cover" />
+            </div>
+            <div className="p-6 text-center">
+              <h3 className="text-xl font-bold text-ink mb-3">{modalContent.title}</h3>
+              <p className="text-sm text-muted font-medium leading-relaxed mb-6">{modalContent.body}</p>
+              <button onClick={() => setShowModal(false)} className="bg-[#FFC107] hover:bg-[#FFB300] text-ink font-bold px-10 py-2.5 rounded-full transition-all active:scale-95 shadow-md">
+                {lang === 'en' ? 'Exit' : 'बंद करें'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </AuthLayout>
   );
 }

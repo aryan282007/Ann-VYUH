@@ -1,21 +1,24 @@
-import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import { useLanguage } from '../context/LanguageContext.jsx';
 import { MotionDiv, MotionLink, MotionLi, cardMotion, cardMotionDelayed, sectionMotion } from '../components/motion.js';
 
 const FEATURES = [
   { key: 'bookSlot', icon: '📅' },
-  { key: 'queue', icon: '👥' },
-  { key: 'payment', icon: '₹' },
-  { key: 'report', icon: '🚨' },
-  { key: 'centres', icon: '🏢' },
+  { key: 'queue', icon: '⏳' },
+  { key: 'payment', icon: '💳' },
+  { key: 'report', icon: '📢' },
+  { key: 'centres', icon: '📍' },
 ];
 
 const QUICK_SERVICES = [
   { key: 'register', icon: '📝', to: '/farmer/register' },
   { key: 'bookSlot', icon: '📅', to: '/farmer/book' },
-  { key: 'myBookings', icon: '📋', to: '/farmer/bookings' },
-  { key: 'queue', icon: '👥', to: '/farmer/bookings' },
+  { key: 'myBookings', icon: '📅', to: '/farmer/bookings' },
+  { key: 'queue', icon: '⏳', to: '/farmer/bookings' },
+  { key: 'payment', icon: '💳', to: '/farmer/payments' },
+  { key: 'report', icon: '📢', to: '/farmer/complaint' },
+  { key: 'centres', icon: '📍', to: '/centres/schedules' },
 ];
 
 export default function Landing() {
@@ -25,11 +28,12 @@ export default function Landing() {
   const [modalContent, setModalContent] = useState({ title: '', body: '', image: '' });
 
   useEffect(() => {
-    // Only show once per session to avoid annoying the user during testing
     if (!sessionStorage.getItem('welcomeShown')) {
       setModalContent({
         title: lang === 'en' ? 'We Are Under Development' : 'हम विकास के चरण में हैं',
-        body: lang === 'en' ? 'Thank you for exploring Ann VYUH! Please note that this website project is currently under active development and is about 40-50% complete. More features will be launching shortly.' : 'अन्न VYUH को एक्सप्लोर करने के लिए धन्यवाद! कृपया ध्यान दें कि यह वेबसाइट प्रोजेक्ट वर्तमान में सक्रिय विकास के अधीन है और लगभग 40-50% पूर्ण है। जल्द ही और भी सुविधाएँ लॉन्च की जाएंगी।',
+        body: lang === 'en' 
+          ? 'Thank you for exploring Ann VYUH! Please note that this website project is currently under active development and is about 40-50% complete. More features will be launching shortly.' 
+          : 'अन्न VYUH को एक्सप्लोर करने के लिए धन्यवाद! कृपया ध्यान दें कि यह वेबसाइट प्रोजेक्ट वर्तमान में सक्रिय विकास के अधीन है और लगभग 40-50% पूर्ण है। जल्द ही और भी सुविधाएँ लॉन्च की जाएंगी।',
         image: 'https://images.pexels.com/photos/36436061/pexels-photo-36436061.jpeg?auto=compress&cs=tinysrgb&w=800'
       });
       setShowModal(true);
@@ -37,280 +41,154 @@ export default function Landing() {
     }
   }, [lang]);
 
-
   function openAppModal() {
     setModalContent({
-      title: lang === 'en' ? 'App Under Development' : '\u0910\u092A \u0928\u093F\u0930\u094D\u092E\u093E\u0923 \u0905\u0927\u0940\u0928 \u0939\u0948',
-      body: lang === 'en' ? 'Our mobile application (Android APK) is currently under active development phase. It will feature offline slot booking, instant payment tracking, interactive Mandi maps, and live procurement queue alerts.' : 'हमारा मोबाइल एप्लिकेशन (Android APK) वर्तमान में सक्रिय विकास चरण में है। इसमें ऑफ़लाइन स्लॉट बुकिंग, त्वरित भुगतान ट्रैकिंग, इंटरैक्टिव मंडी मैप्स और लाइव खरीद कतार अलर्ट की सुविधा होगी।',
+      title: lang === 'en' ? 'App Under Development' : 'ऐप निर्माण अधीन है',
+      body: lang === 'en' 
+        ? 'Our mobile application (Android APK) is currently under active development phase. It will feature offline slot booking, instant payment tracking, interactive Mandi maps, and live procurement queue alerts.' 
+        : 'हमारा मोबाइल एप्लिकेशन (Android APK) वर्तमान में सक्रिय विकास चरण में है। इसमें ऑफ़लाइन स्लॉट बुकिंग, त्वरित भुगतान ट्रैकिंग, इंटरैक्टिव मंडी मैप्स और लाइव खरीद कतार अलर्ट की सुविधा होगी।',
       image: 'https://images.pexels.com/photos/36436061/pexels-photo-36436061.jpeg?auto=compress&cs=tinysrgb&w=800'
     });
     setShowModal(true);
   }
 
-
   return (
-    <div className="flex flex-col font-sans overflow-x-hidden">
-      
-      {/* 1. Hero Section - Organic & Modern */}
-      <section className="relative pt-24 pb-32 px-5 overflow-hidden bg-[#EAF2E8]">
-        {/* Decorative background shapes */}
-        <div className="absolute top-0 right-0 w-3/4 h-[120%] bg-[#D5E6D2] rounded-l-full opacity-60 transform translate-x-1/3 -translate-y-12"></div>
-        <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-[#C2DAC0] rounded-tr-[120px] opacity-40"></div>
-        
-        <div className="relative mx-auto max-w-6xl z-10 flex flex-col md:flex-row items-center gap-12">
-          <MotionDiv className="flex-1" {...sectionMotion}>
-            <div className="inline-block bg-white/70 backdrop-blur px-4 py-1.5 rounded-full text-primary-dark font-bold text-sm mb-6 shadow-sm border border-white/50">
-              {t('home.eyebrow')}
-            </div>
-            <h1 className="text-5xl md:text-7xl font-black text-ink leading-tight">
-              अन्न <span className="text-primary-dark">VYUH</span>
-            </h1>
-            <p className="mt-6 text-xl text-ink/80 max-w-xl font-medium leading-relaxed">
-              {t('home.tagline')}
-            </p>
-            <div className="mt-10 flex flex-wrap gap-4 items-center">
-              <Link to="/farmer/register" className="bg-[#87B88C] hover:bg-primary text-white px-8 py-4 rounded-xl font-bold transition-all shadow-md hover:shadow-lg hover:-translate-y-1 text-lg">
-                {t('home.cta.register')}
-              </Link>
-              <Link to="/farmer/login" className="bg-white text-primary-dark hover:bg-gray-50 border border-primary/20 px-8 py-4 rounded-xl font-bold transition-all shadow-sm text-lg">
-                {t('home.cta.login')}
-              </Link>
-            </div>
-          </MotionDiv>
-          
-          <MotionDiv className="flex-1 w-full" {...sectionMotion}>
-            <div className="relative rounded-3xl overflow-hidden shadow-2xl border-8 border-white bg-white">
-              <img
-                src="https://images.pexels.com/photos/36436061/pexels-photo-36436061.jpeg?auto=compress&cs=tinysrgb&w=800"
-                alt="Farmer in Madhya Pradesh"
-                className="w-full h-[400px] object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-8">
-                <div className="text-white">
-                  <h3 className="text-2xl font-bold">{t('home.photoBanner.heading')}</h3>
-                  <p className="opacity-90 font-medium">{t('home.tagline')}</p>
-                </div>
-              </div>
-            </div>
-          </MotionDiv>
-        </div>
-      </section>
-
-      {/* 2. Bento Box Features Grid */}
-      <section className="py-20 px-5 bg-paper">
-        <div className="mx-auto max-w-6xl">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-ink">अन्न VYUH की <span className="text-primary">विशेषताएँ</span></h2>
+    <div>
+      <div
+        className="relative overflow-hidden rounded-b-[2.5rem] bg-[#0A6451] px-5 pb-16 pt-14 md:rounded-b-[4rem] md:pb-24 md:pt-20"
+        style={{
+          backgroundImage: 'radial-gradient(circle at 80% 0%, rgba(255, 255, 255, 0.08) 0%, transparent 50%), radial-gradient(circle at 20% 100%, rgba(255, 255, 255, 0.03) 0%, transparent 40%)'
+        }}
+      >
+        <div className="mx-auto max-w-5xl animate-fade-in relative z-10">
+          <p className="text-small font-bold tracking-wide text-[#A4ED8D]">{t('home.eyebrow')}</p>
+          <h1 className="mt-2 text-h1 text-white">अन्न VYUH</h1>
+          <p className="mt-4 max-w-2xl text-p1 text-white/85">{t('home.tagline')}</p>
+          <div className="mt-6 flex flex-wrap gap-3">
+            <Link to="/farmer/register" className="rounded bg-[#A4ED8D] px-5 py-2.5 text-p2 font-bold text-[#074D43] transition-transform hover:scale-[1.03] hover:bg-[#D4FFC5] active:scale-95">
+              {t('home.cta.register')}
+            </Link>
+            <Link to="/farmer/login" className="rounded border border-white/50 px-5 py-2.5 text-p2 font-bold text-white transition-colors hover:bg-white/10 active:scale-95">
+              {t('home.cta.login')}
+            </Link>
           </div>
+          <Link to="/centres/schedules" className="mt-4 inline-block text-p2 font-bold text-[#A4ED8D] underline">
+            {t('nav.centres')} →
+          </Link>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[250px]">
-            {FEATURES.map((f, i) => (
-              <MotionDiv 
-                key={f.key} 
-                className={`bg-white rounded-3xl p-8 border border-border shadow-sm flex flex-col justify-between hover:border-primary/40 transition-colors ${i === 0 ? 'md:col-span-2' : ''} ${i === 3 ? 'md:col-span-2' : ''}`}
-                {...cardMotionDelayed(i)}
-              >
-                <div className="w-14 h-14 rounded-2xl bg-primary-light/50 flex items-center justify-center text-3xl mb-4">
-                  {f.icon}
-                </div>
-                <div>
-                  <h3 className="text-xl font-bold text-ink mb-2">{t(`home.feature.${f.key}.title`)}</h3>
-                  <p className="text-muted font-medium line-clamp-3">{t(`home.feature.${f.key}.body`)}</p>
-                </div>
-              </MotionDiv>
-            ))}
+          <div className="hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 flex-col items-center gap-4 z-20">
+            <img src="/ann-vyuh-app-mockup-v3.svg" alt="Ann VYUH App Mockup" className="w-[120px] lg:w-[150px] xl:w-[180px] object-contain drop-shadow-2xl" />
+            <button
+              type="button"
+              onClick={openAppModal}
+              className="rounded-full bg-[#FFC107] px-6 py-2 text-sm font-bold text-ink transition-transform hover:scale-105 hover:bg-[#FFB300] active:scale-95 flex items-center justify-center gap-2 shadow-lg"
+            >
+              {t('home.cta.installApp.label')}
+            </button>
           </div>
         </div>
-      </section>
+      </div>
 
-      {/* 3. Quick Services - Action Cards */}
-      <section className="py-20 px-5 bg-[#EAF2E8]/50">
-        <div className="mx-auto max-w-6xl">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
-            <div>
-              <p className="text-primary font-bold tracking-wide uppercase text-sm mb-2">{t('home.quickServices.eyebrow')}</p>
-              <h2 className="text-3xl md:text-4xl font-bold text-ink">{t('home.quickServices.heading')}</h2>
-            </div>
-            <p className="text-muted max-w-sm font-medium">{t('home.quickServices.subtitle')}</p>
+      <div className="mx-auto max-w-5xl px-5 py-14">
+        <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {FEATURES.map((f, i) => (
+            <MotionDiv key={f.key} className="card" {...cardMotionDelayed(i)}>
+              <span aria-hidden="true" className="flex h-11 w-11 items-center justify-center rounded-full bg-primary-light text-xl">{f.icon}</span>
+              <h2 className="mt-3 text-h3">{t(`home.feature.${f.key}.title`)}</h2>
+              <p className="mt-2 text-p2 text-muted">{t(`home.feature.${f.key}.body`)}</p>
+            </MotionDiv>
+          ))}
+        </div>
+
+        <MotionDiv className="card mt-10 max-w-3xl" {...cardMotion}>
+          <h2 className="text-h3">📞 {t('landing.ivr.title')}</h2>
+          <p className="mt-2 text-p2 text-muted">{t('landing.ivr.body')}</p>
+          <Link to="/ivr" className="btn-outline mt-3 inline-block">{t('landing.ivr.cta')}</Link>
+        </MotionDiv>
+      </div>
+
+      <section className="bg-gradient-to-b from-[#F5FBFC] to-[#F0F8FB] px-5 py-14">
+        <div className="mx-auto max-w-5xl">
+          <div className="text-center">
+            <p className="text-small font-bold tracking-wide text-primary">{t('home.quickServices.eyebrow')}</p>
+            <h2 className="mt-1 text-h2">{t('home.quickServices.heading')}</h2>
+            <p className="mt-1 text-p2 text-muted">{t('home.quickServices.subtitle')}</p>
           </div>
-          
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {QUICK_SERVICES.map((s, i) => (
-              <MotionLink 
-                key={s.key} 
-                to={s.to} 
-                className="group bg-white rounded-2xl p-6 border border-border shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all"
-                {...cardMotionDelayed(i, 0.05)}
-              >
-                <div className="text-4xl mb-4 group-hover:scale-110 transition-transform origin-bottom-left">{s.icon}</div>
-                <h3 className="text-lg font-bold text-ink mb-2">{t(`home.feature.${s.key}.title`)}</h3>
-                <p className="text-sm text-muted font-medium mb-4 line-clamp-2">{t(`home.feature.${s.key}.body`)}</p>
-                <span className="text-primary font-bold text-sm flex items-center gap-1 group-hover:gap-2 transition-all">
-                  {t('common.continue')} &rarr;
-                </span>
+              <MotionLink key={s.key} to={s.to} className="card hover:border-primary" {...cardMotionDelayed(i, 0.06, true)}>
+                <span aria-hidden="true" className="text-xl">{s.icon}</span>
+                <h3 className="mt-2 text-h3">{t(`home.feature.${s.key}.title`)}</h3>
+                <p className="mt-1 text-p2 text-muted">{t(`home.feature.${s.key}.body`)}</p>
+                <span className="mt-2 inline-block text-small font-bold text-primary">{t('common.continue')} →</span>
               </MotionLink>
             ))}
           </div>
         </div>
       </section>
 
-      {/* 4. Process flow & IVR */}
-      <section id="how-it-works" className="py-24 px-5 bg-white relative overflow-hidden">
-        <div className="mx-auto max-w-6xl flex flex-col lg:flex-row gap-16 items-center">
-          
-          <div className="flex-1 w-full relative">
-            <div className="absolute top-0 bottom-0 left-6 w-0.5 bg-primary/20 -z-10"></div>
-            <p className="text-primary font-bold tracking-wide uppercase text-sm mb-2">{t('home.process.eyebrow')}</p>
-            <h2 className="text-3xl md:text-4xl font-bold text-ink mb-10">{t('home.process.heading')}</h2>
-            
-            <div className="space-y-8">
-              {[1, 2, 3, 4, 5].map((n, i) => (
-                <MotionDiv key={n} className="flex gap-6 items-start" {...cardMotionDelayed(i)}>
-                  <div className="w-12 h-12 rounded-full bg-primary text-white font-bold text-lg flex items-center justify-center shrink-0 shadow-md">
-                    {n}
-                  </div>
-                  <div className="pt-2">
-                    <p className="text-lg font-bold text-ink">{t(`home.process.step${n}`)}</p>
-                  </div>
-                </MotionDiv>
-              ))}
-            </div>
+      <section id="how-it-works" className="px-5 py-14">
+        <div className="mx-auto max-w-3xl">
+          <div className="text-center">
+            <p className="text-small font-bold tracking-wide text-primary">{t('home.process.eyebrow')}</p>
+            <h2 className="mt-1 text-h2">{t('home.process.heading')}</h2>
+            <p className="mt-1 text-p2 text-muted">{t('home.process.subtitle')}</p>
           </div>
-          
-          <div className="flex-1 w-full space-y-6">
-            <MotionDiv className="bg-gradient-to-br from-[#1B5E20] to-[#2E7D32] rounded-3xl p-10 text-white shadow-xl" {...cardMotion}>
-              <div className="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center text-4xl mb-6 backdrop-blur">
-                📞
-              </div>
-              <h2 className="text-2xl font-bold mb-3">{t('landing.ivr.title')}</h2>
-              <p className="text-white/80 font-medium mb-8 leading-relaxed">{t('landing.ivr.body')}</p>
-              <Link to="/ivr" className="bg-white text-primary-dark px-6 py-3 rounded-xl font-bold hover:bg-gray-50 transition-colors inline-block">
-                {t('landing.ivr.cta')}
-              </Link>
-            </MotionDiv>
-
-            <MotionDiv className="bg-[#FFF8ED] border border-[#FFE0B2] rounded-3xl p-8" {...cardMotionDelayed(1)}>
-              <h3 className="text-xl font-bold text-[#E65100] mb-4">{t('home.why.heading')}</h3>
-              <ul className="space-y-3">
-                {[1, 2, 3, 4, 5].map((n) => (
-                  <li key={n} className="flex gap-3 text-ink font-medium">
-                    <span className="text-[#E65100]">✓</span>
-                    {t(`home.why.reason${n}`)}
-                  </li>
-                ))}
-              </ul>
-            </MotionDiv>
-          </div>
-
+          <ol className="mt-8 space-y-3 max-w-3xl">
+            {[1, 2, 3, 4, 5].map((n, i) => (
+              <MotionLi key={n} className="card flex items-center gap-4" {...cardMotionDelayed(i)}>
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary text-p2 font-bold text-white">{n}</span>
+                <span className="text-p1 font-semibold text-ink">{t(`home.process.step${n}`)}</span>
+              </MotionLi>
+            ))}
+          </ol>
         </div>
       </section>
 
-      
-      {/* 4.5 Mobile App Showcase */}
-      <section className="py-24 px-5 bg-gradient-to-b from-white to-gray-50 relative overflow-hidden flex flex-col items-center text-center">
-        {/* Glow effect behind the phone */}
-        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#fdf3c6] rounded-full blur-[100px] opacity-60 pointer-events-none"></div>
-        
-        <MotionDiv className="relative z-10 mb-12" {...sectionMotion}>
-          <div className="relative mx-auto w-[280px] h-[580px] bg-black rounded-[3rem] p-2.5 shadow-2xl border-4 border-gray-900 overflow-hidden transform hover:scale-105 transition-transform duration-500">
-            {/* Phone notch */}
-            <div className="absolute top-0 inset-x-0 h-6 bg-black rounded-b-3xl w-1/2 mx-auto z-20"></div>
-            <img 
-              src="/mobile-ui.jpeg" 
-              alt="Ann VYUH Mobile App Interface" 
-              className="w-full h-full object-cover rounded-[2.5rem]"
-            />
-          </div>
-        </MotionDiv>
-
-        <MotionDiv className="relative z-10 max-w-2xl mx-auto" {...cardMotion}>
-          <h2 className="text-4xl md:text-5xl font-black text-ink mb-4">
-            {lang === 'en' ? 'Explore ' : 'मोबाइल पर '}<span className="text-primary-dark">अन्न VYUH</span>{lang === 'en' ? ' on Mobile' : ' देखें'}
-          </h2>
-          <p className="text-lg text-muted font-medium mb-8">
-            {lang === 'en' 
-              ? 'Experience seamless slot booking, instant payments, and transparent procurement right from your phone.' 
-              : 'अपने फोन से निर्बाध स्लॉट बुकिंग, त्वरित भुगतान और पारदर्शी खरीद का अनुभव करें।'}
-          </p>
-          
-          <button 
-            type="button"
-            onClick={openAppModal}
-            className="group relative inline-flex items-center justify-center gap-3 bg-[#FFC107] hover:bg-[#FFB300] text-ink font-bold text-lg px-8 py-4 rounded-full transition-all shadow-md hover:shadow-lg hover:-translate-y-1"
-          >
-            <span className="flex items-center justify-center w-6 h-6">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-            </span>
-            <div className="text-left">
-              <div className="leading-tight">{lang === 'en' ? 'Download APK' : 'APK डाउनलोड करें'}</div>
-              <div className="text-[10px] uppercase tracking-wider opacity-70">Android Version</div>
-            </div>
-            <span className="absolute right-6 opacity-0 group-hover:opacity-100 group-hover:translate-x-2 transition-all">
-              &rarr;
-            </span>
-          </button>
-          
-          <div className="mt-6 flex items-center justify-center gap-4 text-xs font-bold text-muted uppercase tracking-wider flex-wrap">
-            <span className="flex items-center gap-1"><span className="text-[#FFC107]">✓</span> Secure direct download</span>
-            <span className="text-gray-300">•</span>
-            <span className="flex items-center gap-1"><span className="text-primary">✓</span> Verified build</span>
-            <span className="text-gray-300">•</span>
-            <span className="flex items-center gap-1"><span className="text-primary">✓</span> Updated regularly</span>
-          </div>
-        </MotionDiv>
+      <section className="bg-[#F5FBFC] px-5 py-14">
+        <div className="mx-auto max-w-3xl">
+          <p className="text-small font-bold tracking-wide text-primary">{t('home.why.eyebrow')}</p>
+          <h2 className="mt-1 text-h2">{t('home.why.heading')}</h2>
+          <p className="mt-2 max-w-xl text-p2 text-muted">{t('home.why.body')}</p>
+          <ul className="mt-6 grid gap-3 sm:grid-cols-2 max-w-4xl">
+            {[1, 2, 3, 4, 5].map((n) => (
+              <li key={n} className="flex items-start gap-2 text-p2 text-ink">
+                <span aria-hidden="true" className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-primary text-xs text-white">✓</span>
+                {t(`home.why.reason${n}`)}
+              </li>
+            ))}
+          </ul>
+        </div>
       </section>
 
-      {/* 5. Need Help CTA */}
-      <section id="need-help" className="py-20 px-5 bg-paper">
-        <MotionDiv className="mx-auto max-w-4xl bg-white border border-border shadow-lg rounded-3xl p-10 md:p-14 flex flex-col md:flex-row items-center justify-between gap-10 text-center md:text-left" {...sectionMotion}>
+      <section id="need-help" className="px-5 py-14">
+        <MotionDiv className="mx-auto flex max-w-3xl flex-col items-start justify-between gap-6 rounded-lg border border-border bg-surface p-6 sm:flex-row sm:items-center" {...sectionMotion}>
           <div>
-            <h2 className="text-3xl font-bold text-ink mb-3">{t('home.help.heading')}</h2>
-            <p className="text-muted font-medium text-lg">{t('home.help.body')}</p>
+            <p className="text-small font-bold tracking-wide text-primary">{t('home.help.eyebrow')}</p>
+            <h2 className="mt-1 text-h2">{t('home.help.heading')}</h2>
+            <p className="mt-1 text-p2 text-muted">{t('home.help.body')}</p>
           </div>
-          <div className="flex flex-col gap-4 shrink-0 w-full md:w-auto">
-            <Link to="/centres/schedules" className="bg-primary hover:bg-primary-dark text-white px-8 py-4 rounded-xl font-bold transition-all text-center">
-              {t('home.help.centres')}
-            </Link>
-            <a href="tel:1800XXXXXXX" className="border-2 border-primary text-primary hover:bg-primary-light/20 px-8 py-3.5 rounded-xl font-bold transition-all text-center">
-              {t('home.help.contact')}
-            </a>
+          <div className="flex shrink-0 flex-col gap-2 text-p2 font-bold">
+            <a href="#how-it-works" className="text-primary underline">{t('home.help.howItWorks')} →</a>
+            <Link to="/centres/schedules" className="text-primary underline">{t('home.help.centres')} →</Link>
+            <a href="tel:1800XXXXXXX" className="text-primary underline">{t('home.help.contact')} →</a>
           </div>
         </MotionDiv>
       </section>
-      
 
       {/* Coming Soon Modal */}
       {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
+        <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
           <div className="bg-white rounded-2xl overflow-hidden max-w-sm w-full shadow-2xl relative animate-in zoom-in-95 duration-200">
-            {/* Close button */}
-            <button 
-              onClick={() => setShowModal(false)}
-              className="absolute top-3 right-3 w-8 h-8 flex items-center justify-center bg-black/40 hover:bg-black/60 text-white rounded-full transition-colors z-10 backdrop-blur"
-            >
-              ✕
-            </button>
-            
-            {/* Image Banner */}
+            <button onClick={() => setShowModal(false)} className="absolute top-3 right-3 w-8 h-8 flex items-center justify-center bg-black/40 hover:bg-black/60 text-white rounded-full transition-colors z-10 backdrop-blur">✕</button>
             <div className="h-48 w-full overflow-hidden relative">
               <img src={modalContent.image} alt="Modal Banner" className="w-full h-full object-cover" />
-              <div className="absolute top-3 right-14 w-8 h-8 flex items-center justify-center bg-white rounded-full shadow-md text-ink">
-                ♡
-              </div>
             </div>
-            
-            {/* Content */}
             <div className="p-6 text-center">
               <h3 className="text-xl font-bold text-ink mb-3">{modalContent.title}</h3>
-              <p className="text-sm text-muted font-medium leading-relaxed mb-6">
-                {modalContent.body}
-              </p>
-              
-              <button 
-                onClick={() => setShowModal(false)}
-                className="bg-[#FFC107] hover:bg-[#FFB300] text-ink font-bold px-10 py-2.5 rounded-full transition-all active:scale-95 shadow-md"
-              >
-                {lang === 'en' ? 'Exit' : '\u092C\u0902\u0926 \u0915\u0930\u0947\u0902'}
+              <p className="text-sm text-muted font-medium leading-relaxed mb-6">{modalContent.body}</p>
+              <button onClick={() => setShowModal(false)} className="bg-[#FFC107] hover:bg-[#FFB300] text-ink font-bold px-10 py-2.5 rounded-full transition-all active:scale-95 shadow-md">
+                {lang === 'en' ? 'Exit' : 'बंद करें'}
               </button>
             </div>
           </div>

@@ -42,8 +42,6 @@ export default function AuthLayout({ children }) {
       {/* Right Side - Form */}
       <div className="w-full lg:w-1/2 flex flex-col relative bg-white">
         
-
-
         {/* Back Link for mobile */}
         <div className="absolute top-6 left-6 z-20 lg:hidden">
           <Link to="/" className="text-primary font-bold hover:underline">&larr; {t('common.back')}</Link>
@@ -69,4 +67,3 @@ export default function AuthLayout({ children }) {
     </div>
   );
 }
-

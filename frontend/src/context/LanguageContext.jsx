@@ -1,4 +1,4 @@
-import { createContext, useContext, useMemo, useState } from 'react';
+import { createContext, useContext, useMemo, useState, useEffect } from 'react';
 
 // Loads every locale/*.json file automatically.
 const localeModules = import.meta.glob('../locales/*.json', { eager: true });
@@ -10,7 +10,15 @@ for (const path in localeModules) {
 
 const NATIVE_NAMES = {
   hi: 'हिन्दी',
-  en: 'English'
+  en: 'English',
+  pa: 'ਪੰਜਾਬੀ',
+  raj: 'राजस्थानी',
+  hne: 'छत्तीसगढ़ी',
+  mr: 'मराठी',
+  gu: 'ગુજરાતી',
+  bn: 'বাংলা',
+  te: 'తెలుగు',
+  kn: 'ಕನ್ನಡ'
 };
 
 export const SUPPORTED_LANGS = Object.keys(DICTIONARIES)
@@ -25,6 +33,7 @@ export function LanguageProvider({ children }) {
   const [lang, setLangState] = useState(() => localStorage.getItem('siteLang') || 'hi');
 
   const setLang = (code) => {
+    if (!NATIVE_NAMES[code]) return;
     setLangState(code);
     localStorage.setItem('siteLang', code);
   };
@@ -45,8 +54,8 @@ export function LanguageProvider({ children }) {
   return <LanguageContext.Provider value={{ lang, setLang, t }}>{children}</LanguageContext.Provider>;
 }
 
-export function useLanguage() {
+export const useLanguage = () => {
   const ctx = useContext(LanguageContext);
   if (!ctx) throw new Error('useLanguage must be used within LanguageProvider');
   return ctx;
-}
+};
