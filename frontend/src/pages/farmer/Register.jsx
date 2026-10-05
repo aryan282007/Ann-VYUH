@@ -37,10 +37,8 @@ export default function FarmerRegister() {
     
     // Intercept registration and show popup
     setModalContent({
-      title: lang === 'en' ? 'System Maintenance' : 'सिस्टम रखरखाव',
-      body: lang === 'en' 
-        ? 'Farmer registration and login portals are temporarily disabled while we upgrade our backend services for improved security and performance. Please try again later.' 
-        : 'बेहतर सुरक्षा और प्रदर्शन के लिए हमारे बैकएंड सेवाओं को अपग्रेड करते समय किसान पंजीकरण और लॉगिन पोर्टल अस्थायी रूप से अक्षम कर दिए गए हैं। कृपया बाद में पुनः प्रयास करें।',
+      title: t('auth.dynamic.123'),
+      body: t('auth.dynamic.124'),
       image: 'https://images.pexels.com/photos/36436061/pexels-photo-36436061.jpeg?auto=compress&cs=tinysrgb&w=800'
     });
     setShowModal(true);
@@ -56,7 +54,7 @@ export default function FarmerRegister() {
       joinFarmerRoom(data.farmer._id);
       navigate('/farmer/home');
     } catch (err) {
-      setError(err.response?.data?.message || (lang === 'en' ? 'Invalid OTP' : 'अवैध OTP'));
+      setError(err.response?.data?.message || (t('auth.dynamic.125')));
     } finally {
       setSubmitting(false);
     }
@@ -67,27 +65,27 @@ export default function FarmerRegister() {
       {stage === 'form' ? (
         <form onSubmit={handleRegisterSubmit} className="w-full">
           <div className="text-center mb-8">
-            <h2 className="text-2xl font-bold text-ink">{lang === 'en' ? 'Register' : 'पंजीकरण करें'}</h2>
-            <p className="text-sm text-muted mt-1">{lang === 'en' ? 'Create your account on Ann VYUH portal' : 'अन्न VYUH पोर्टल पर अपना खाता बनाएँ'}</p>
+            <h2 className="text-2xl font-bold text-ink">{t('auth.dynamic.126')}</h2>
+            <p className="text-sm text-muted mt-1">{t('auth.dynamic.127')}</p>
           </div>
 
           {error && <div className="rounded bg-red-50 p-3 text-sm text-red-600 mb-4">{error}</div>}
           
           <div className="space-y-5">
             <div>
-              <label className="mb-1 block text-sm font-bold text-ink">{lang === 'en' ? 'Full Name' : 'पूरा नाम (Full Name)'}</label>
+              <label className="mb-1 block text-sm font-bold text-ink">{t('auth.dynamic.128')}</label>
               <input
                 type="text"
                 required
                 className="w-full rounded-md border border-border py-2.5 px-4 text-ink outline-none focus:border-primary focus:ring-1 focus:ring-primary shadow-sm"
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                placeholder={lang === 'en' ? 'Your Name' : 'आपका नाम'}
+                placeholder={t('auth.dynamic.129')}
               />
             </div>
 
             <div>
-              <label className="mb-1 block text-sm font-bold text-ink">{lang === 'en' ? 'Mobile Number' : 'मोबाइल नंबर'}</label>
+              <label className="mb-1 block text-sm font-bold text-ink">{t('auth.dynamic.130')}</label>
               <div className="relative flex items-center">
                 <span className="absolute left-4 text-muted font-bold">+91</span>
                 <input
@@ -103,7 +101,7 @@ export default function FarmerRegister() {
             </div>
 
             <div>
-              <label className="mb-1 block text-sm font-bold text-ink">{lang === 'en' ? 'Aadhaar Number (KYC)' : 'आधार नंबर (Aadhaar KYC)'}</label>
+              <label className="mb-1 block text-sm font-bold text-ink">{t('auth.dynamic.131')}</label>
               <input
                 type="text"
                 pattern="[0-9]{12}"
@@ -115,14 +113,14 @@ export default function FarmerRegister() {
             </div>
 
             <div>
-              <label className="mb-1 block text-sm font-bold text-ink">{lang === 'en' ? 'District' : 'ज़िला'}</label>
+              <label className="mb-1 block text-sm font-bold text-ink">{t('auth.dynamic.132')}</label>
               <select
                 required
                 className="w-full rounded-md border border-border py-2.5 px-4 text-ink outline-none focus:border-primary focus:ring-1 focus:ring-primary shadow-sm bg-white"
                 value={formData.district}
                 onChange={(e) => setFormData({ ...formData, district: e.target.value })}
               >
-                <option value="">{lang === 'en' ? 'Select District' : 'ज़िला चुनें'}</option>
+                <option value="">{t('auth.dynamic.133')}</option>
                 {districts.map((d) => (
                   <option key={d} value={d}>{d}</option>
                 ))}
@@ -131,27 +129,27 @@ export default function FarmerRegister() {
           </div>
 
           <button type="submit" disabled={submitting} className="w-full mt-8 rounded-md bg-[#84b884] py-3.5 text-white font-bold transition-transform hover:scale-[1.02] active:scale-95 shadow-sm hover:bg-[#73a373]">
-            {submitting ? '...' : (lang === 'en' ? 'Register >' : 'पंजीकरण करें >')}
+            {submitting ? '...' : (t('auth.dynamic.134'))}
           </button>
 
           <p className="mt-6 text-center text-sm text-muted font-medium">
-            {lang === 'en' ? 'Already registered?' : 'पहले से पंजीकृत हैं?'} <Link to="/farmer/login" className="text-primary font-bold hover:underline">{lang === 'en' ? 'Log In' : 'लॉग इन करें'}</Link>
+            {t('auth.dynamic.135')} <Link to="/farmer/login" className="text-primary font-bold hover:underline">{t('auth.dynamic.136')}</Link>
           </p>
         </form>
       ) : (
         <form onSubmit={verifyOTP} className="w-full space-y-4">
           <div className="text-center mb-6">
-            <h2 className="text-2xl font-bold text-ink">{lang === 'en' ? 'Verify OTP' : 'OTP सत्यापित करें'}</h2>
+            <h2 className="text-2xl font-bold text-ink">{t('auth.dynamic.137')}</h2>
           </div>
 
           <div className="mb-4 rounded border border-primary/20 bg-primary-light p-3 text-sm text-primary">
-            {lang === 'en' ? 'Demo Mode: OTP is' : 'डेमो मोड: OTP है'} <b>{devCode || '1234'}</b>
+            {t('auth.dynamic.138')} <b>{devCode || '1234'}</b>
           </div>
           
           {error && <div className="rounded bg-red-50 p-3 text-sm text-red-600">{error}</div>}
 
           <div>
-            <label className="mb-1 block text-sm font-bold text-ink">{lang === 'en' ? 'Enter OTP' : 'OTP दर्ज करें'}</label>
+            <label className="mb-1 block text-sm font-bold text-ink">{t('auth.dynamic.139')}</label>
             <input
               type="text"
               required
@@ -162,7 +160,7 @@ export default function FarmerRegister() {
           </div>
 
           <button type="submit" disabled={submitting} className="w-full mt-6 rounded-md bg-[#84b884] py-3 text-white font-bold transition-transform hover:scale-[1.02] active:scale-95 shadow-sm hover:bg-[#73a373]">
-            {submitting ? '...' : (lang === 'en' ? 'Verify OTP >' : 'OTP सत्यापित करें >')}
+            {submitting ? '...' : (t('auth.dynamic.140'))}
           </button>
         </form>
       )}
@@ -179,7 +177,7 @@ export default function FarmerRegister() {
               <h3 className="text-xl font-bold text-ink mb-3">{modalContent.title}</h3>
               <p className="text-sm text-muted font-medium leading-relaxed mb-6">{modalContent.body}</p>
               <button onClick={() => setShowModal(false)} className="bg-[#FFC107] hover:bg-[#FFB300] text-ink font-bold px-10 py-2.5 rounded-full transition-all active:scale-95 shadow-md">
-                {lang === 'en' ? 'Exit' : 'बंद करें'}
+                {t('auth.dynamic.141')}
               </button>
             </div>
           </div>
