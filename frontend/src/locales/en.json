@@ -576,7 +576,7 @@
   "trackBooking.cancelConfirm": "Cancel this booking? This can't be undone.",
   "trackBooking.cancelling": "Cancelling...",
   "trackBooking.error.cancelFailed": "Could not cancel booking",
-  "home.cta.installApp.label": "📲 Install our app",
+  "home.cta.installApp.label": "Install our app",
   "home.cta.installApp.comingSoon": "Our mobile app isn't available yet - available in a future update!",
   "notificationCentre.title": "Notifications",
   "notificationCentre.empty": "No notifications yet.",
@@ -626,5 +626,14 @@
   "auth.dynamic.138": "Demo Mode: OTP is",
   "auth.dynamic.139": "Enter OTP",
   "auth.dynamic.140": "Verify OTP >",
-  "auth.dynamic.141": "Exit"
+  "auth.dynamic.141": "Exit",
+  "auth.tagline": "Ann VYUH — Where every crop has its time, and every farmer gets their value.",
+  "auth.feature.scheduling": "Smart Scheduling",
+  "auth.feature.procurement": "Transparent Procurement",
+  "auth.feature.payment": "Instant Payment",
+  "popup.website_dev.title": "We Are Under Development",
+  "popup.website_dev.body": "Thank you for exploring Ann VYUH! Please note that this website project is currently under active development and is about 40-50% complete. More features will be launching shortly.",
+  "popup.app_dev.title": "App Under Development",
+  "popup.app_dev.body": "Our mobile application (Android APK) is currently under active development phase. It will feature offline slot booking, instant payment tracking, interactive Mandi maps, and live procurement queue alerts.",
+  "common.ok": "OK"
 }

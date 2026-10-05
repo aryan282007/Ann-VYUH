@@ -30,23 +30,19 @@ export default function Landing() {
   useEffect(() => {
     if (!sessionStorage.getItem('welcomeShown')) {
       setModalContent({
-        title: lang === 'en' ? 'We Are Under Development' : 'हम विकास के चरण में हैं',
-        body: lang === 'en' 
-          ? 'Thank you for exploring Ann VYUH! Please note that this website project is currently under active development and is about 40-50% complete. More features will be launching shortly.' 
-          : 'अन्न VYUH को एक्सप्लोर करने के लिए धन्यवाद! कृपया ध्यान दें कि यह वेबसाइट प्रोजेक्ट वर्तमान में सक्रिय विकास के अधीन है और लगभग 40-50% पूर्ण है। जल्द ही और भी सुविधाएँ लॉन्च की जाएंगी।',
+        title: t('popup.website_dev.title'),
+        body: t('popup.website_dev.body'),
         image: 'https://images.pexels.com/photos/36436061/pexels-photo-36436061.jpeg?auto=compress&cs=tinysrgb&w=800'
       });
       setShowModal(true);
       sessionStorage.setItem('welcomeShown', 'true');
     }
-  }, [lang]);
+  }, [t]);
 
   function openAppModal() {
     setModalContent({
-      title: lang === 'en' ? 'App Under Development' : 'ऐप निर्माण अधीन है',
-      body: lang === 'en' 
-        ? 'Our mobile application (Android APK) is currently under active development phase. It will feature offline slot booking, instant payment tracking, interactive Mandi maps, and live procurement queue alerts.' 
-        : 'हमारा मोबाइल एप्लिकेशन (Android APK) वर्तमान में सक्रिय विकास चरण में है। इसमें ऑफ़लाइन स्लॉट बुकिंग, त्वरित भुगतान ट्रैकिंग, इंटरैक्टिव मंडी मैप्स और लाइव खरीद कतार अलर्ट की सुविधा होगी।',
+      title: t('popup.app_dev.title'),
+      body: t('popup.app_dev.body'),
       image: 'https://images.pexels.com/photos/36436061/pexels-photo-36436061.jpeg?auto=compress&cs=tinysrgb&w=800'
     });
     setShowModal(true);
@@ -188,7 +184,7 @@ export default function Landing() {
               <h3 className="text-xl font-bold text-ink mb-3">{modalContent.title}</h3>
               <p className="text-sm text-muted font-medium leading-relaxed mb-6">{modalContent.body}</p>
               <button onClick={() => setShowModal(false)} className="bg-[#FFC107] hover:bg-[#FFB300] text-ink font-bold px-10 py-2.5 rounded-full transition-all active:scale-95 shadow-md">
-                {lang === 'en' ? 'Exit' : 'बंद करें'}
+                {t('common.ok')}
               </button>
             </div>
           </div>

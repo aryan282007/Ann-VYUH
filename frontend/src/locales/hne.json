@@ -576,7 +576,7 @@
   "trackBooking.cancelConfirm": "का ए बुकिंग ला रद्द करना चाहत हव? एला फेर वापस नई कर सकत।",
   "trackBooking.cancelling": "रद्द करत हे...",
   "trackBooking.error.cancelFailed": "बुकिंग रद्द नई हो पाइस",
-  "home.cta.installApp.label": "📲 हमर ऐप इंस्टॉल करा",
+  "home.cta.installApp.label": "हमर ऐप इंस्टॉल करा",
   "home.cta.installApp.comingSoon": "हमर मोबाइल ऐप अभी नई बने हे - आने वाला अपडेट में मिल जाही!",
   "notificationCentre.title": "सूचना",
   "notificationCentre.empty": "अबे तक कोई सूचना नई हे।",
@@ -618,5 +618,14 @@
   "auth.dynamic.130": "जिला चुनव",
   "auth.dynamic.131": "पंजीकरण करव >",
   "auth.dynamic.132": "पहिली ले पंजीकृत हव?",
-  "auth.dynamic.133": "लॉग इन करव"
+  "auth.dynamic.133": "लॉग इन करव",
+  "auth.tagline": "अन्न VYUH — जिहां हर फसल के बखत आथे, अउ हर किसान ला ओकर मोल मिलथे।",
+  "auth.feature.scheduling": "स्मार्ट शेड्यूलिंग",
+  "auth.feature.procurement": "पारदर्शी खरीद",
+  "auth.feature.payment": "तुरंत भुगतान",
+  "popup.website_dev.title": "हमर काम चलत हे",
+  "popup.website_dev.body": "अन्न VYUH ला देखे बर धन्यवाद! कृपया ध्यान देवव कि ये वेबसाइट प्रोजेक्ट अभी बनत हे अउ लगभग 40-50% पूरा हो गे हे। जल्दी अउ भी सुबिधा मन लानय जाही।",
+  "popup.app_dev.title": "ऐप बनत हे",
+  "popup.app_dev.body": "हमर मोबाइल एप्लीकेशन (Android APK) अभी बनत हे। एमा ऑफ़लाइन स्लॉट बुकिंग, तुरंत भुगतान ट्रैकिंग, इंटरैक्टिव मंडी मैप्स अउ लाइव खरीद कतार अलर्ट के सुबिधा होही।",
+  "common.ok": "ठीक हे"
 }

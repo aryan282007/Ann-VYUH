@@ -576,7 +576,7 @@
   "trackBooking.cancelConfirm": "क्या आप यह बुकिंग रद्द करना चाहते हैं? इसे बाद में बदला नहीं जा सकेगा।",
   "trackBooking.cancelling": "रद्द हो रहा है...",
   "trackBooking.error.cancelFailed": "बुकिंग रद्द नहीं हो सकी",
-  "home.cta.installApp.label": "📲 हमारा ऐप इंस्टॉल करें",
+  "home.cta.installApp.label": "हमारा ऐप इंस्टॉल करें",
   "home.cta.installApp.comingSoon": "हमारा मोबाइल ऐप अभी उपलब्ध नहीं है - भविष्य के अपडेट में आ जाएगा!",
   "notificationCentre.title": "सूचनाएं (Notifications)",
   "notificationCentre.empty": "अभी कोई सूचना नहीं है।",
@@ -626,5 +626,14 @@
   "auth.dynamic.138": "डेमो मोड: OTP है",
   "auth.dynamic.139": "OTP दर्ज करें",
   "auth.dynamic.140": "OTP सत्यापित करें >",
-  "auth.dynamic.141": "बंद करें"
+  "auth.dynamic.141": "बंद करें",
+  "auth.tagline": "अन्न VYUH — जहाँ हर फसल का समय आता है, और हर किसान को उसका मूल्य मिलता है।",
+  "auth.feature.scheduling": "स्मार्ट शेड्यूलिंग",
+  "auth.feature.procurement": "पारदर्शी खरीद",
+  "auth.feature.payment": "त्वरित भुगतान",
+  "popup.website_dev.title": "हम विकास के चरण में हैं",
+  "popup.website_dev.body": "अन्न VYUH को एक्सप्लोर करने के लिए धन्यवाद! कृपया ध्यान दें कि यह वेबसाइट प्रोजेक्ट वर्तमान में सक्रिय विकास के अधीन है और लगभग 40-50% पूर्ण है। जल्द ही और भी सुविधाएँ लॉन्च की जाएंगी।",
+  "popup.app_dev.title": "ऐप निर्माण अधीन है",
+  "popup.app_dev.body": "हमारा मोबाइल एप्लिकेशन (Android APK) वर्तमान में सक्रिय विकास चरण में है। इसमें ऑफ़लाइन स्लॉट बुकिंग, त्वरित भुगतान ट्रैकिंग, इंटरैक्टिव मंडी मैप्स और लाइव खरीद कतार अलर्ट की सुविधा होगी।",
+  "common.ok": "ठीक है"
 }

@@ -28,13 +28,13 @@ export default function AuthLayout({ children }) {
           </h1>
           
           <p className="text-lg font-medium text-ink/80 max-w-md mb-10 leading-relaxed">
-            अन्न VYUH — जहाँ हर फसल का समय आता है, और हर किसान को उसका मूल्य मिलता है।
+            {t('auth.tagline')}
           </p>
 
           <div className="flex items-center justify-center gap-4 flex-wrap">
-            <span className="bg-white/80 backdrop-blur px-5 py-2 rounded-full text-sm font-bold text-primary-dark shadow-sm border border-white">स्मार्ट शेड्यूलिंग</span>
-            <span className="bg-white/80 backdrop-blur px-5 py-2 rounded-full text-sm font-bold text-primary-dark shadow-sm border border-white">पारदर्शी खरीद</span>
-            <span className="bg-white/80 backdrop-blur px-5 py-2 rounded-full text-sm font-bold text-primary-dark shadow-sm border border-white">त्वरित भुगतान</span>
+            <span className="bg-white/80 backdrop-blur px-5 py-2 rounded-full text-sm font-bold text-primary-dark shadow-sm border border-white">{t('auth.feature.scheduling')}</span>
+            <span className="bg-white/80 backdrop-blur px-5 py-2 rounded-full text-sm font-bold text-primary-dark shadow-sm border border-white">{t('auth.feature.procurement')}</span>
+            <span className="bg-white/80 backdrop-blur px-5 py-2 rounded-full text-sm font-bold text-primary-dark shadow-sm border border-white">{t('auth.feature.payment')}</span>
           </div>
         </div>
       </div>

@@ -576,7 +576,7 @@
   "trackBooking.cancelConfirm": "ਕੀ ਤੁਸੀਂ ਇਹ ਬੁਕਿੰਗ ਰੱਦ ਕਰਨਾ ਚਾਹੁੰਦੇ ਹੋ? ਇਸਨੂੰ ਬਾਅਦ ਵਿੱਚ ਬਦਲਿਆ ਨਹੀਂ ਜਾ ਸਕੇਗਾ।",
   "trackBooking.cancelling": "ਰੱਦ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ...",
   "trackBooking.error.cancelFailed": "ਬੁਕਿੰਗ ਰੱਦ ਨਹੀਂ ਹੋ ਸਕੀ",
-  "home.cta.installApp.label": "📲 ਸਾਡੀ ਐਪ ਇੰਸਟਾਲ ਕਰੋ",
+  "home.cta.installApp.label": "ਸਾਡੀ ਐਪ ਇੰਸਟਾਲ ਕਰੋ",
   "home.cta.installApp.comingSoon": "ਸਾਡੀ ਮੋਬਾਈਲ ਐਪ ਅਜੇ ਉਪਲਬਧ ਨਹੀਂ ਹੈ - ਭਵਿੱਖ ਦੇ ਅਪਡੇਟ ਵਿੱਚ ਉਪਲਬਧ ਹੋਵੇਗੀ!",
   "notificationCentre.title": "ਸੂਚਨਾਵਾਂ",
   "notificationCentre.empty": "ਅਜੇ ਕੋਈ ਸੂਚਨਾ ਨਹੀਂ ਹੈ।",
@@ -626,5 +626,14 @@
   "auth.dynamic.138": "Demo Mode: OTP is",
   "auth.dynamic.139": "Enter OTP",
   "auth.dynamic.140": "Verify OTP >",
-  "auth.dynamic.141": "Exit"
+  "auth.dynamic.141": "Exit",
+  "auth.tagline": "ਅੰਨ VYUH — ਜਿੱਥੇ ਹਰ ਫਸਲ ਦਾ ਸਮਾਂ ਆਉਂਦਾ ਹੈ, ਅਤੇ ਹਰ ਕਿਸਾਨ ਨੂੰ ਉਸਦੀ ਕੀਮਤ ਮਿਲਦੀ ਹੈ।",
+  "auth.feature.scheduling": "ਸਮਾਰਟ ਸ਼ਡਿਊਲਿੰਗ",
+  "auth.feature.procurement": "ਪਾਰਦਰਸ਼ੀ ਖਰੀਦ",
+  "auth.feature.payment": "ਤੁਰੰਤ ਭੁਗਤਾਨ",
+  "popup.website_dev.title": "ਅਸੀਂ ਵਿਕਾਸ ਦੇ ਪੜਾਅ ਵਿੱਚ ਹਾਂ",
+  "popup.website_dev.body": "ਅੰਨ VYUH ਨੂੰ ਐਕਸਪਲੋਰ ਕਰਨ ਲਈ ਧੰਨਵਾਦ! ਕਿਰਪਾ ਕਰਕੇ ਧਿਆਨ ਦਿਓ ਕਿ ਇਹ ਵੈੱਬਸਾਈਟ ਪ੍ਰੋਜੈਕਟ ਵਰਤਮਾਨ ਵਿੱਚ ਸਰਗਰਮ ਵਿਕਾਸ ਅਧੀਨ ਹੈ ਅਤੇ ਲਗਭਗ 40-50% ਮੁਕੰਮਲ ਹੈ। ਜਲਦੀ ਹੀ ਹੋਰ ਵਿਸ਼ੇਸ਼ਤਾਵਾਂ ਲਾਂਚ ਕੀਤੀਆਂ ਜਾਣਗੀਆਂ।",
+  "popup.app_dev.title": "ਐਪ ਨਿਰਮਾਣ ਅਧੀਨ ਹੈ",
+  "popup.app_dev.body": "ਸਾਡੀ ਮੋਬਾਈਲ ਐਪਲੀਕੇਸ਼ਨ (Android APK) ਵਰਤਮਾਨ ਵਿੱਚ ਸਰਗਰਮ ਵਿਕਾਸ ਪੜਾਅ ਵਿੱਚ ਹੈ। ਇਸ ਵਿੱਚ ਔਫਲਾਈਨ ਸਲਾਟ ਬੁਕਿੰਗ, ਤੁਰੰਤ ਭੁਗਤਾਨ ਟ੍ਰੈਕਿੰਗ, ਇੰਟਰਐਕਟਿਵ ਮੰਡੀ ਮੈਪਸ, ਅਤੇ ਲਾਈਵ ਖਰੀਦ ਕਤਾਰ ਅਲਰਟ ਦੀ ਸਹੂਲਤ ਹੋਵੇਗੀ।",
+  "common.ok": "ਠੀਕ ਹੈ"
 }

@@ -536,7 +536,7 @@
   "trackBooking.cancelConfirm": "क्या आप यह बुकिंग रद्द करना चाहते हैं? इसे बाद में सुधारा नहीं जा सकेगा।",
   "trackBooking.cancelling": "रद्द हो रहा है...",
   "trackBooking.error.cancelFailed": "बुकिंग रद्द नहीं हो सकी",
-  "home.cta.installApp.label": "📲 हमारा ऐप इंस्टॉल करें",
+  "home.cta.installApp.label": "हमारा ऐप इंस्टॉल करें",
   "home.cta.installApp.comingSoon": "हमारा मोबाइल ऐप अभी उपलब्ध नहीं है - भविष्य के अपडेट में आ जाएगा!",
   "notificationCentre.title": "सूचनाएं",
   "notificationCentre.empty": "अभी कोई सूचना नहीं है।",
@@ -618,5 +618,14 @@
   "auth.dynamic.130": "जिलो चुनो",
   "auth.dynamic.131": "पंजीकरण करो >",
   "auth.dynamic.132": "पैल्यां सूं पंजीकृत हो?",
-  "auth.dynamic.133": "लॉग इन करो"
+  "auth.dynamic.133": "लॉग इन करो",
+  "auth.tagline": "अन्न VYUH — जठै हर फसल रो टेम आवै है, अर हर किसान नै उणरो मोल मिलै है।",
+  "auth.feature.scheduling": "स्मार्ट शेड्यूलिंग",
+  "auth.feature.procurement": "पारदर्शी खरीद",
+  "auth.feature.payment": "हाथोहाथ भुगतान",
+  "popup.website_dev.title": "म्हाको काम चाल रह्यो है",
+  "popup.website_dev.body": "अन्न VYUH नै देखण ताईं धन्यवाद! कृपया ध्यान देवो कै यो वेबसाइट प्रोजेक्ट अभी चाल रह्यो है अर लगभग 40-50% पूरो होयो है। जल्दी ही और भी सुविधावां लॉन्च करी जावली।",
+  "popup.app_dev.title": "ऐप बण रह्यो है",
+  "popup.app_dev.body": "म्हाको मोबाइल एप्लीकेशन (Android APK) अभी बण रह्यो है। इणमें ऑफ़लाइन स्लॉट बुकिंग, हातोहात भुगतान ट्रैकिंग, इंटरैक्टिव मंडी मैप्स अर लाइव खरीद कतार अलर्ट री सुविधा होवेली।",
+  "common.ok": "ठीक है"
 }
